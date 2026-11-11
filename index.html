@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<title>Abeceda</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Abeceda">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#FFF7E8">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- Úvod: první dotek odemkne zvuk a hlas (nutné na iPadu) -->
+<section class="screen" id="s-start">
+  <div class="start-box">
+    <div class="owl big">🦉</div>
+    <h1>Abeceda</h1>
+    <button class="btn primary huge" id="btn-start">▶ Hrát</button>
+  </div>
+</section>
+
+<!-- Domů -->
+<section class="screen" id="s-home" hidden>
+  <header class="topbar">
+    <div class="owl" id="owl-home">🦉</div>
+    <div class="bubble" id="home-bubble">Ahoj! Vyber si písmeno.</div>
+    <button class="btn ghost small" id="btn-parent" aria-label="Pro rodiče">👤 Rodiče<span class="hold-fill"></span></button>
+  </header>
+  <div class="games">
+    <button class="game-btn find" id="btn-find"><span class="g-ico">🔎</span><span>Najdi písmeno</span></button>
+    <button class="game-btn first" id="btn-first"><span class="g-ico">👂</span><span>Na co začíná?</span></button>
+  </div>
+  <div id="groups"></div>
+</section>
+
+<!-- Karta písmena -->
+<section class="screen" id="s-letter" hidden>
+  <header class="topbar">
+    <button class="btn round" data-nav="home" aria-label="Zpět">🏠</button>
+    <div class="spacer"></div>
+    <div class="stars" id="letter-stars"></div>
+  </header>
+  <div class="letter-stage">
+    <button class="card letter-card" id="letter-card">
+      <div class="glyph-big" id="letter-glyph"></div>
+      <div class="small-letter" id="letter-small"></div>
+    </button>
+    <button class="card pic-card" id="pic-card">
+      <div class="pic" id="letter-pic"></div>
+      <div class="word" id="letter-word"></div>
+    </button>
+  </div>
+  <div class="actions">
+    <button class="btn primary huge" id="btn-trace">✏️ Piš</button>
+  </div>
+</section>
+
+<!-- Psaní -->
+<section class="screen" id="s-trace" hidden>
+  <header class="topbar">
+    <button class="btn round" data-nav="home" aria-label="Zpět">🏠</button>
+    <div class="dots" id="trace-rounds"></div>
+    <button class="btn round" id="btn-demo" aria-label="Ukaž">👀</button>
+  </header>
+  <div class="trace-wrap"><svg id="trace-svg" xmlns="http://www.w3.org/2000/svg"></svg></div>
+</section>
+
+<!-- Hry -->
+<section class="screen" id="s-quiz" hidden>
+  <header class="topbar">
+    <button class="btn round" data-nav="home" aria-label="Zpět">🏠</button>
+    <div class="dots" id="quiz-dots"></div>
+    <button class="btn round" id="btn-repeat" aria-label="Znovu poslechnout">🔊</button>
+  </header>
+  <div class="quiz-prompt" id="quiz-prompt"></div>
+  <div class="tiles" id="quiz-tiles"></div>
+</section>
+
+<!-- Rodiče -->
+<section class="screen" id="s-parent" hidden>
+  <header class="topbar">
+    <button class="btn round" data-nav="home" aria-label="Zpět">🏠</button>
+    <h2>Pro rodiče</h2>
+  </header>
+  <div class="parent">
+    <div class="panel">
+      <h3>Hlas</h3>
+      <p id="voice-info"></p>
+      <label class="row">Rychlost řeči <input type="range" id="rate" min="0.6" max="1.1" step="0.05"></label>
+      <button class="btn small" id="btn-voice-test">▶ Vyzkoušet hlas</button>
+    </div>
+    <div class="panel">
+      <h3>Namluvte hlásky svým hlasem <span class="tag">doporučeno</span></h3>
+      <p>Počítačový hlas čte název písmene („em“, „bé“). Pro čtení je ale důležitá <b>hláska</b> – krátké „m“, „b“ bez přidaného „é“. Klepněte na písmeno a řekněte hlásku (nahrává se 2 vteřiny). Dítě pak uslyší vás.</p>
+      <div class="rec-grid" id="rec-grid"></div>
+      <button class="btn small danger" id="btn-rec-clear">Smazat všechny nahrávky</button>
+    </div>
+    <div class="panel">
+      <h3>Délka hraní</h3>
+      <label class="row">Připomenout pauzu po
+        <select id="break-min"><option value="10">10 minutách</option><option value="15">15 minutách</option><option value="20">20 minutách</option><option value="0">nepřipomínat</option></select>
+      </label>
+    </div>
+    <div class="panel">
+      <h3>Jak s aplikací pracovat</h3>
+      <ul>
+        <li>Krátce a často: 10–15 minut denně je lepší než hodina o víkendu.</li>
+        <li>Seďte u toho s dítětem, ptejte se („Co ještě začíná na M?“). Společné hraní učí nejvíc.</li>
+        <li>Písmena jdou v pořadí jako ve slabikáři. Stačí 1–2 nová písmena na den, zbytek opakujte hrami.</li>
+        <li>Psaní prstem učí tvar a směr tahů. Úchop tužky natrénuje jen tužka a papír – nebo stylus.</li>
+        <li>Hvězdičky: ⭐ poznal písmeno · ⭐ napsal ho · ⭐ spolehlivě ho pozná ve hrách.</li>
+      </ul>
+    </div>
+    <div class="panel">
+      <h3>Postup</h3>
+      <p id="progress-info"></p>
+      <button class="btn small danger" id="btn-reset">Vymazat postup</button>
+    </div>
+  </div>
+</section>
+
+<div class="overlay" id="celebrate" hidden><div class="cele-box"><div class="cele-pic" id="cele-pic"></div><div class="cele-text" id="cele-text"></div><div class="stars" id="cele-stars"></div><button class="btn primary huge" id="cele-ok">Dál ▶</button></div></div>
+<div class="overlay" id="break" hidden><div class="cele-box"><div class="owl big">🦉</div><div class="cele-text">Dnes ti to šlo!<br>Oči si teď potřebují odpočinout.</div><button class="btn ghost" id="break-more">Ještě chvilku</button></div></div>
+<div id="confetti"></div>
+
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
